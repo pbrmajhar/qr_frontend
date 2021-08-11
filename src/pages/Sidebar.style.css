@@ -1,0 +1,8 @@
+.sidebar {
+  height: 100vh;
+}
+.sidebar ul li a{
+    text-align: left;
+    width: 100%;
+    margin-bottom: 10px;
+}
