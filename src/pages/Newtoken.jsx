@@ -12,6 +12,7 @@ const Newtoken = () => {
   const [fullname, setFullname] = useState("");
   const [number, setNumber] = useState("");
   const [price, setPrice] = useState("");
+  const [used, setUsed] = useState(false);
   const [render, setRender] = useState(false);
   const [info, setInfo] = useState({
     id: "",
@@ -32,7 +33,7 @@ const Newtoken = () => {
     });
 
     if (fullname && number && price) {
-      const response = await createToken(fullname, number, price, token);
+      const response = await createToken(fullname, number, price, used, token);
       QRCode.toDataURL(response.data._id, function (err, url) {
         setInfo({
           ...info,
@@ -70,6 +71,8 @@ const Newtoken = () => {
               price={price}
               setPrice={setPrice}
               saveHandle={saveHandle}
+              used={used}
+              setUsed={setUsed}
             />
             <div className="col s3">
               <div class="card blue-grey darken-1">

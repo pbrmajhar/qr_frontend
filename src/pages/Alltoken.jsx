@@ -33,7 +33,7 @@ const Alltoken = ({ token, render }) => {
             </thead>
             <tbody>
               {tokens.map((token) => (
-                <tr>
+                <tr key={token._id}>
                   <td>{token.fullname}</td>
                   <td>{token.phone}</td>
                   <td>{token.price}</td>
@@ -52,6 +52,35 @@ const Alltoken = ({ token, render }) => {
             </tbody>
           </table>
         )}
+        <div>
+          <ul class="pagination">
+            <li class="disabled">
+              <a href="#!">
+                <i class="material-icons">chevron_left</i>
+              </a>
+            </li>
+            <li class="active">
+              <a href="#!">1</a>
+            </li>
+            <li class="waves-effect">
+              <a href="#!">2</a>
+            </li>
+            <li class="waves-effect">
+              <a href="#!">3</a>
+            </li>
+            <li class="waves-effect">
+              <a href="#!">4</a>
+            </li>
+            <li class="waves-effect">
+              <a href="#!">5</a>
+            </li>
+            <li class="waves-effect">
+              <a href="#!">
+                <i class="material-icons">chevron_right</i>
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
       <div class="card-action">
         <a href="#">This is a link</a>
