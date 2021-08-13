@@ -1,26 +1,32 @@
 import React, { useState, useEffect } from "react";
-import { getTokens, deleteToken } from "../api/token.api";
+import { getTokens, deleteToken, totalToken } from "../api/token.api";
 const Alltoken = ({ token, render }) => {
   const [tokens, setTokens] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
+  const [page, setPage] = useState(0);
 
   useEffect(() => {
     loadTokens();
-  }, [render]);
+  }, [page]);
 
   const loadTokens = async () => {
-    const response = await getTokens(token);
-    setTokens(response.data);
+    const response = await getTokens(page, token);
+    setTokens(response.data.tokens);
+    setTotalPages(response.data.totalPages);
   };
 
+  const pages = new Array(totalPages).fill(null).map((v, i) => i);
+  console.log(pages.length - 0)
   const tokenDelete = async (id) => {
     const response = await deleteToken(id, token);
     loadTokens();
   };
 
   return (
-    <div class="card">
-      <div class="card-content">
-        <span class="card-title">All Tokens</span>
+    <div className="card">
+      <div className="card-content">
+        <span className="card-title">All Tokens {totalPages}</span>
+        <p>Page of {page + 1}</p>
         {tokens && (
           <table>
             <thead>
@@ -39,10 +45,13 @@ const Alltoken = ({ token, render }) => {
                   <td>{token.price}</td>
                   <td>
                     <a
-                      class="waves-effect waves-light btn red"
+                      className="waves-effect waves-light btn red"
                       onClick={() => tokenDelete(token._id)}
                     >
-                      <i class="material-icons left" style={{ margin: "0" }}>
+                      <i
+                        className="material-icons left"
+                        style={{ margin: "0" }}
+                      >
                         delete
                       </i>
                     </a>
@@ -53,36 +62,30 @@ const Alltoken = ({ token, render }) => {
           </table>
         )}
         <div>
-          <ul class="pagination">
-            <li class="disabled">
-              <a href="#!">
-                <i class="material-icons">chevron_left</i>
+          <ul className="pagination">
+            <li className={page == 0 ? 'disabled' : 'waves-effect'}>
+              <a href="#!"  onClick={() => setPage(page - 1)}>
+                <i className="material-icons">chevron_left</i>
               </a>
             </li>
-            <li class="active">
-              <a href="#!">1</a>
-            </li>
-            <li class="waves-effect">
-              <a href="#!">2</a>
-            </li>
-            <li class="waves-effect">
-              <a href="#!">3</a>
-            </li>
-            <li class="waves-effect">
-              <a href="#!">4</a>
-            </li>
-            <li class="waves-effect">
-              <a href="#!">5</a>
-            </li>
-            <li class="waves-effect">
-              <a href="#!">
-                <i class="material-icons">chevron_right</i>
+            {pages.map((pageIndex) => (
+              <li className={pageIndex === page ? "active" : "waves-effect"}>
+                <a href="#!" onClick={() => setPage(pageIndex)}>
+                  {pageIndex + 1}
+                </a>
+              </li>
+            ))}
+            {page+1}
+            {pages.length}
+            <li className={page + 1 == pages.length ? 'disabled' : 'waves-effect'}>
+              <a href="#!" onClick={() => setPage(page + 1)}>
+                <i className="material-icons">chevron_right</i>
               </a>
             </li>
           </ul>
         </div>
       </div>
-      <div class="card-action">
+      <div className="card-action">
         <a href="#">This is a link</a>
       </div>
     </div>

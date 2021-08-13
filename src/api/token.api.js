@@ -8,10 +8,17 @@ export const createToken = async (fullname, phone, price, used, token) => {
   );
 };
 
-export const getTokens = async (token) => {
-  return await axios.get(`/api/token/all?limit=2&sort=createdAt&order=desc&page=2`, {
-    headers: { token },
-  });
+export const getTokens = async (page, token) => {
+  return await axios.get(
+    `/api/token/all?sort=createdAt&order=desc&limit=2&page=${page}`,
+    {
+      headers: { token },
+    }
+  );
+};
+
+export const totalToken = async (token) => {
+  return await axios.get(`/api/token/count`);
 };
 
 export const deleteToken = async (id, token) => {
