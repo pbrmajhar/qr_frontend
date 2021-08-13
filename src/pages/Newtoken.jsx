@@ -13,7 +13,6 @@ const Newtoken = () => {
   const [number, setNumber] = useState("");
   const [price, setPrice] = useState("");
   const [used, setUsed] = useState(false);
-  const [render, setRender] = useState(false);
   const [info, setInfo] = useState({
     id: "",
     name: "",
@@ -46,7 +45,6 @@ const Newtoken = () => {
         setFullname("");
         setNumber("");
         setPrice("");
-        setRender(true);
       });
     } else {
       alert("Please fill the form");
@@ -113,7 +111,7 @@ const Newtoken = () => {
               </div>
             </div>
             <div className="col s6">
-              <Alltoken token={token} render={render} />
+              <Alltoken token={token} />
             </div>
           </div>
         </div>

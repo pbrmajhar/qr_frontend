@@ -1,26 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { getTokens, deleteToken, totalToken } from "../api/token.api";
-const Alltoken = ({ token, render }) => {
+const Alltoken = ({ token }) => {
   const [tokens, setTokens] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [page, setPage] = useState(0);
+  const [perPage, setPerPage] = useState(5);
 
   useEffect(() => {
     loadTokens();
   }, [page]);
 
   const loadTokens = async () => {
-    const response = await getTokens(page, token);
+    const response = await getTokens(page, perPage, token);
     setTokens(response.data.tokens);
     setTotalPages(response.data.totalPages);
   };
 
   const pages = new Array(totalPages).fill(null).map((v, i) => i);
-  console.log(pages.length - 0)
+
   const tokenDelete = async (id) => {
     const response = await deleteToken(id, token);
     loadTokens();
   };
+
+  const gotoPrev = () => {
+     setPage(Math.max(0, page - 1))
+  }
+
+  const gotoNext = () => {
+    setPage(Math.min(totalPages - 1, page + 1))
+  }
 
   return (
     <div className="card">
@@ -63,8 +72,8 @@ const Alltoken = ({ token, render }) => {
         )}
         <div>
           <ul className="pagination">
-            <li className={page == 0 ? 'disabled' : 'waves-effect'}>
-              <a href="#!"  onClick={() => setPage(page - 1)}>
+            <li className={page == 0 ? "disabled" : "waves-effect"}>
+              <a href="#!" onClick={gotoPrev}>
                 <i className="material-icons">chevron_left</i>
               </a>
             </li>
@@ -75,10 +84,10 @@ const Alltoken = ({ token, render }) => {
                 </a>
               </li>
             ))}
-            {page+1}
-            {pages.length}
-            <li className={page + 1 == pages.length ? 'disabled' : 'waves-effect'}>
-              <a href="#!" onClick={() => setPage(page + 1)}>
+            <li
+              className={page + 1 == pages.length ? "disabled" : "waves-effect"}
+            >
+              <a href="#!" onClick={gotoNext}>
                 <i className="material-icons">chevron_right</i>
               </a>
             </li>

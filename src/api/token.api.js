@@ -8,9 +8,9 @@ export const createToken = async (fullname, phone, price, used, token) => {
   );
 };
 
-export const getTokens = async (page, token) => {
+export const getTokens = async (page, perPage, token) => {
   return await axios.get(
-    `/api/token/all?sort=createdAt&order=desc&limit=2&page=${page}`,
+    `/api/token/all?sort=createdAt&order=desc&limit=${perPage}&page=${page}`,
     {
       headers: { token },
     }
